@@ -165,180 +165,182 @@
   </script>
   
   <style>
-  body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #3a357d, #D81B60);
-    color: #fff;
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #3a357d, #D81B60);
+  color: #fff;
+  height: 100vh; 
+}
+
+template {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.game-container {
+  max-width: 90vw; 
+  width: 100%;
+  max-height: 90vh;
+  margin: 20px auto; 
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  color: #333;
+  overflow-y: auto;
+}
+
+.welcome-message {
+  margin-bottom: 20px;
+}
+
+.rules-section {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rules-section h2 {
+  margin-bottom: 10px;
+}
+
+.level-selector {
+  margin-bottom: 20px;
+}
+
+.styled-select {
+  padding: 10px;
+  border: 2px solid #3a357d;
+  border-radius: 8px;
+  background: #f3f3f3;
+  transition: border 0.3s;
+}
+
+.styled-select:focus {
+  border-color: #D81B60;
+  outline: none;
+}
+
+.timer {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+  gap: 8px;
+}
+
+.card {
+  width: 100%;
+  padding-top: 100%; 
+  position: relative;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem; 
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.card-front {
+  background-color: #3a357d;
+}
+
+.card-back {
+  background-color: #D81B60;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #4caf50;
+  animation: fadeIn 1s;
+}
+
+.cancel-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff4d4d; 
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: #e63939; 
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  template {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  to {
+    opacity: 1;
   }
-  
-  .game-container {
-    max-width: 800px;
-    width: 100%;
-    margin: 20px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    color: #333;
-  }
-  
-  .welcome-message {
-    margin-bottom: 20px;
-  }
-  
-  .rules-section {
-    background: #f9f9f9;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .rules-section h2 {
-    margin-bottom: 10px;
-  }
-  
-  .level-selector {
-    margin-bottom: 20px;
-  }
-  
-  .styled-select {
-    padding: 10px;
-    border: 2px solid #3a357d;
-    border-radius: 8px;
-    background: #f3f3f3;
-    transition: border 0.3s;
-  }
-  
-  .styled-select:focus {
-    border-color: #D81B60;
-    outline: none;
-  }
-  
-  .timer {
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-    color: #333;
-  }
-  
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Responsive avec des tailles minimales */
-    gap: 8px;
-  }
-  
-  .card {
-    width: 100%;
-    padding-top: 100%; /* Aspect ratio 1:1 */
-    position: relative;
-    perspective: 1000px;
-    cursor: pointer;
-  }
-  
-  .card-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transform-style: preserve-3d;
-    transform: rotateY(0deg);
-    transition: transform 0.5s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card.flipped .card-inner {
-    transform: rotateY(180deg);
-  }
-  
-  .card-front, .card-back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    backface-visibility: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem; /* Taille de police ajustée */
-    font-weight: bold;
-    border-radius: 8px;
-  }
-  
-  .card-front {
-    background-color: #3a357d;
-  }
-  
-  .card-back {
-    background-color: #D81B60;
-    color: white;
-    transform: rotateY(180deg);
-  }
-  
-  .message {
-    margin-top: 20px;
+}
+
+/* Media Queries pour améliorer la responsivité */
+@media (max-width: 600px) {
+  .welcome-message h1 {
     font-size: 1.5rem;
-    color: #4caf50;
-    animation: fadeIn 1s;
   }
-  
-  .cancel-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #ff4d4d; /* Couleur rouge pour le bouton */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+
+  .timer {
     font-size: 1rem;
-    transition: background-color 0.3s;
   }
-  
-  .cancel-button:hover {
-    background-color: #e63939; /* Couleur au survol */
+
+  .message {
+    font-size: 1.2rem;
   }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+
+  .styled-select {
+    padding: 8px;
   }
-  
-  /* Media Queries pour améliorer la responsivité */
-  @media (max-width: 600px) {
-    .welcome-message h1 {
-      font-size: 1.5rem;
-    }
-  
-    .timer {
-      font-size: 1rem;
-    }
-  
-    .message {
-      font-size: 1.2rem;
-    }
-  
-    .styled-select {
-      padding: 8px;
-    }
-  
-    .card-front, .card-back {
-      font-size: 1.2rem; /* Ajustement pour mobile */
-    }
+
+  .card-front, .card-back {
+    font-size: 1.2rem; 
   }
+}
   </style>
